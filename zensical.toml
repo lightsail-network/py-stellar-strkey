@@ -1,0 +1,47 @@
+[project]
+site_name = "stellar-strkey"
+site_description = "Strict, typed, dependency-free encoding and decoding of Stellar strkeys (SEP-23)."
+site_url = "https://stellar-strkey.readthedocs.io/"
+repo_url = "https://github.com/lightsail-network/py-stellar-strkey"
+repo_name = "lightsail-network/py-stellar-strkey"
+edit_uri = "edit/main/docs/"
+nav = [
+    { "Home" = "index.md" },
+    { "Guide" = "guide.md" },
+    { "API reference" = "api.md" },
+    { "Changelog" = "changelog.md" },
+]
+
+[project.theme]
+features = ["content.code.copy", "navigation.instant", "search.highlight", "toc.follow"]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle = { icon = "lucide/sun", name = "Switch to dark mode" }
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle = { icon = "lucide/moon", name = "Switch to light mode" }
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["src"]
+inventories = ["https://docs.python.org/3/objects.inv"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+docstring_style = "google"
+filters = ["!^_"]
+heading_level = 3
+inherited_members = true
+members_order = "source"
+merge_init_into_class = true
+separate_signature = true
+show_attribute_values = false
+show_bases = false
+show_root_full_path = false
+show_root_heading = true
+show_signature_annotations = true
+show_source = false
+show_symbol_type_heading = true
+signature_crossrefs = true

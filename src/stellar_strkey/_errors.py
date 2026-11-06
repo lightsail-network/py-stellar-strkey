@@ -1,0 +1,69 @@
+"""Exceptions raised when a string is not an acceptable strkey.
+
+Only `from_string` and `parse` raise these, with one exception:
+`ClaimableBalance.from_bytes` raises `UnsupportedVersionError` for an unknown claimable
+balance version, because that is a protocol version problem rather than bad key
+material. Constructors and `from_bytes` otherwise raise a plain `ValueError`, as
+Python's own constructors do, because no strkey is involved there.
+
+Messages never contain the strkey or key material being processed, because the input
+may be a secret seed and exception messages tend to end up in logs.
+"""
+
+
+class StrkeyError(ValueError):
+    """Base class of the errors raised when a string is not an acceptable strkey."""
+
+
+class MalformedStrkeyError(StrkeyError):
+    """The string is not a well-formed strkey.
+
+    For example, it isn't canonical base32, or it has the wrong length or structure for
+    its type. The message says what is wrong.
+    """
+
+
+class ChecksumMismatchError(MalformedStrkeyError):
+    """The checksum does not match, which usually means the strkey was mistyped."""
+
+
+class UnsupportedVersionError(StrkeyError):
+    """The strkey's version is not one this package knows.
+
+    Either its version byte is unknown, or it is a claimable balance of an unknown
+    version. It may be a strkey type introduced after this release of the package.
+    """
+
+
+class WrongStrkeyTypeError(StrkeyError):
+    """The string is a strkey of another type than the one that was asked for.
+
+    Only its encoding, checksum and version byte are checked. The rest is not, since the
+    strkey would be rejected anyway.
+
+    Attributes:
+        expected: The type that was asked for, or `None` when
+            [`parse`][stellar_strkey.parse] refused a private key, since it would have
+            accepted any other type.
+        found: The type of the strkey that was given.
+    """
+
+    expected: type[object] | None
+    found: type[object]
+
+    def __init__(self, expected: type[object] | None, found: type[object]) -> None:
+        # Passing the attributes to the base class keeps the exception picklable.
+        super().__init__(expected, found)
+        self.expected = expected
+        self.found = found
+
+    def __str__(self) -> str:
+        if self.expected is None:
+            return (
+                "parse() does not return private keys; "
+                f"use {self.found.__name__}.from_string"
+            )
+        return (
+            f"expected a strkey of type {self.expected.__name__}, "
+            f"got one of type {self.found.__name__}"
+        )

@@ -1,0 +1,848 @@
+{
+  "description": "Strkey test vectors. Valid strkeys list the decoded fields as lowercase hex, with muxed IDs as decimal strings. Invalid strkeys list the class of error they must raise: malformed, checksum_mismatch or unsupported_version.",
+  "valid": [
+    {
+      "strkey": "BAAD6DBUX6J22DMZOHIEZTEQ64CVCHEDRKWZONFEUL5Q26QD7R76RGR4TU",
+      "type": "claimable_balance",
+      "hash": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a"
+    },
+    {
+      "strkey": "BAADMPVKHBTYIH522D2O3CGHPHSP4ZXFNISHBXEYYDWJYBZ5AXD3CA3GDE",
+      "type": "claimable_balance",
+      "hash": "363eaa3867841fbad0f4ed88c779e4fe66e56a2470dc98c0ec9c073d05c7b103"
+    },
+    {
+      "strkey": "CA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQGAXE",
+      "type": "contract",
+      "hash": "363eaa3867841fbad0f4ed88c779e4fe66e56a2470dc98c0ec9c073d05c7b103"
+    },
+    {
+      "strkey": "CA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUWDA",
+      "type": "contract",
+      "hash": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a"
+    },
+    {
+      "strkey": "GA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQHES5",
+      "type": "ed25519_public_key",
+      "key": "363eaa3867841fbad0f4ed88c779e4fe66e56a2470dc98c0ec9c073d05c7b103"
+    },
+    {
+      "strkey": "GA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVSGZ",
+      "type": "ed25519_public_key",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a"
+    },
+    {
+      "strkey": "GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWHF",
+      "type": "ed25519_public_key",
+      "key": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "strkey": "GACXQEAXYBEZLBMQ2XETOBRO4P66FZAJENDHOQRYPUIXZIIXLKMZEXBJ",
+      "type": "ed25519_public_key",
+      "key": "05781017c049958590d5c937062ee3fde2e40923467742387d117ca1175a9992"
+    },
+    {
+      "strkey": "GAJHORKJKDDEPYCD6URDFODV7CVLJ5AAOJKR6PG2VQOLWFQOF3X7XLOG",
+      "type": "ed25519_public_key",
+      "key": "1277454950c647e043f52232b875f8aab4f40072551f3cdaac1cbb160e2eeffb"
+    },
+    {
+      "strkey": "GAQAA5L65LSYH7CQ3VTJ7F3HHLGCL3DSLAR2Y47263D56MNNGHSQSTVY",
+      "type": "ed25519_public_key",
+      "key": "2000757eeae583fc50dd669f97673acc25ec725823ac73faf6c7df31ad31e509"
+    },
+    {
+      "strkey": "GB7KKHHVYLDIZEKYJPAJUOTBE5E3NJAXPSDZK7O6O44WR3EBRO5HRPVT",
+      "type": "ed25519_public_key",
+      "key": "7ea51cf5c2c68c91584bc09a3a612749b6a4177c87957dde773968ec818bba78"
+    },
+    {
+      "strkey": "GBBM6BKZPEHWYO3E3YKREDPQXMS4VK35YLNU7NFBRI26RAN7GI5POFBB",
+      "type": "ed25519_public_key",
+      "key": "42cf0559790f6c3b64de15120df0bb25caab7dc2db4fb4a18a35e881bf323af7"
+    },
+    {
+      "strkey": "GBCG42WTVWPO4Q6OZCYI3D6ZSTFSJIXIS6INCIUF23L6VN3ADE4337AP",
+      "type": "ed25519_public_key",
+      "key": "446e6ad3ad9eee43cec8b08d8fd994cb24a2e89790d12285d6d7eab7601939bd"
+    },
+    {
+      "strkey": "GBJCHUKZMTFSLOMNC7P4TS4VJJBTCYL3XKSOLXAUJSD56C4LHND5TWUC",
+      "type": "ed25519_public_key",
+      "key": "5223d15964cb25b98d17dfc9cb954a4331617bbaa4e5dc144c87df0b8b3b47d9"
+    },
+    {
+      "strkey": "GBPXXOA5N4JYPESHAADMQKBPWZWQDQ64ZV6ZL2S3LAGW4SY7NTCMWIVL",
+      "type": "ed25519_public_key",
+      "key": "5f7bb81d6f138792470006c8282fb66d01c3dccd7d95ea5b580d6e4b1f6cc4cb"
+    },
+    {
+      "strkey": "GBXEODUMM3SJ3QSX2VYUWFU3NRP7BQRC2ERWS7E2LZXDJXL2N66ZQ5PT",
+      "type": "ed25519_public_key",
+      "key": "6e470e8c66e49dc257d5714b169b6c5ff0c222d123697c9a5e6e34dd7a6fbd98"
+    },
+    {
+      "strkey": "GD6WVYRVID442Y4JVWFWKWCZKB45UGHJAABBJRS22TUSTWGJYXIUR7N2",
+      "type": "ed25519_public_key",
+      "key": "fd6ae23540f9cd6389ad8b6558595079da18e9000214c65ad4e929d8c9c5d148"
+    },
+    {
+      "strkey": "GDD3XRXU3G4DXHVRUDH7LJM4CD4PDZTVP4QHOO4Q6DELKXUATR657OZV",
+      "type": "ed25519_public_key",
+      "key": "c7bbc6f4d9b83b9eb1a0cff5a59c10f8f1e6757f20773b90f0c8b55e809c7ddf"
+    },
+    {
+      "strkey": "GDFX463YPLCO2EY7NGFMI7SXWWDQAMASGYZXCG2LATOF3PP5NQIUKBPT",
+      "type": "ed25519_public_key",
+      "key": "cb7e7b787ac4ed131f698ac47e57b5870030123633711b4b04dc5dbdfd6c1145"
+    },
+    {
+      "strkey": "GDTYVCTAUQVPKEDZIBWEJGKBQHB4UGGXI2SXXUEW7LXMD4B7MK37CWLJ",
+      "type": "ed25519_public_key",
+      "key": "e78a8a60a42af51079406c44994181c3ca18d746a57bd096faeec1f03f62b7f1"
+    },
+    {
+      "strkey": "GDW6AUTBXTOC7FIKUO5BOO3OGLK4SF7ZPOBLMQHMZDI45J2Z6VXRB5NR",
+      "type": "ed25519_public_key",
+      "key": "ede05261bcdc2f950aa3ba173b6e32d5c917f97b82b640ecc8d1cea759f56f10"
+    },
+    {
+      "strkey": "GDWZCOEQRODFCH6ISYQPWY67L3ULLWS5ISXYYL5GH43W7YFMTLB65PYM",
+      "type": "ed25519_public_key",
+      "key": "ed9138908b86511fc89620fb63df5ee8b5da5d44af8c2fa63f376fe0ac9ac3ee"
+    },
+    {
+      "strkey": "LA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQGZ5J",
+      "type": "liquidity_pool",
+      "hash": "363eaa3867841fbad0f4ed88c779e4fe66e56a2470dc98c0ec9c073d05c7b103"
+    },
+    {
+      "strkey": "LA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUPJN",
+      "type": "liquidity_pool",
+      "hash": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a"
+    },
+    {
+      "strkey": "MA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQGAAAAAAAAAPCICBKU",
+      "type": "muxed_ed25519_account",
+      "key": "363eaa3867841fbad0f4ed88c779e4fe66e56a2470dc98c0ec9c073d05c7b103",
+      "id": "123456"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAACJUQ",
+      "type": "muxed_ed25519_account",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "id": "0"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAE2JUG6",
+      "type": "muxed_ed25519_account",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "id": "1234"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAFB4CJJBRKA",
+      "type": "muxed_ed25519_account",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "id": "1357924680"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJLK",
+      "type": "muxed_ed25519_account",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "id": "9223372036854775808"
+    },
+    {
+      "strkey": "MAQAA5L65LSYH7CQ3VTJ7F3HHLGCL3DSLAR2Y47263D56MNNGHSQSAAAAAAAAAAE2LP26",
+      "type": "muxed_ed25519_account",
+      "key": "2000757eeae583fc50dd669f97673acc25ec725823ac73faf6c7df31ad31e509",
+      "id": "1234"
+    },
+    {
+      "strkey": "PA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQGAAAAAEQAAAAAAAAAAAAAAAAAABBXA",
+      "type": "ed25519_signed_payload",
+      "key": "363eaa3867841fbad0f4ed88c779e4fe66e56a2470dc98c0ec9c073d05c7b103",
+      "payload": "000000000000000000"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAACAAAAAABNWS",
+      "type": "ed25519_signed_payload",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "payload": "00000000"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYQ",
+      "type": "ed25519_signed_payload",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "payload": "0000000000000000"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAGAAAAAAAAAAAAAAAAAAACTPY",
+      "type": "ed25519_signed_payload",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "payload": "000000000000000000000000"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAKB5",
+      "type": "ed25519_signed_payload",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "payload": "00000000000000000000000000000000"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALGXI",
+      "type": "ed25519_signed_payload",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "payload": "0000000000000000000000000000000000000000"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAOQCAQDAQCQMBYIBEFAWDANBYHRAEISCMKBKFQXDAMRUGY4DUAAAAFGBU",
+      "type": "ed25519_signed_payload",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "payload": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAQACAQDAQCQMBYIBEFAWDANBYHRAEISCMKBKFQXDAMRUGY4DUPB6IBZGM",
+      "type": "ed25519_signed_payload",
+      "key": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "payload": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20"
+    },
+    {
+      "strkey": "PBJCHUKZMTFSLOMNC7P4TS4VJJBTCYL3XKSOLXAUJSD56C4LHND5SAAAAAAQMAAAADDCO",
+      "type": "ed25519_signed_payload",
+      "key": "5223d15964cb25b98d17dfc9cb954a4331617bbaa4e5dc144c87df0b8b3b47d9",
+      "payload": "06"
+    },
+    {
+      "strkey": "PBJCHUKZMTFSLOMNC7P4TS4VJJBTCYL3XKSOLXAUJSD56C4LHND5SAAAABAJMQP7PF2VHM3AQTURXI4OKORMDBHHFUNRRKFH6LBWVJWLM3SHH5RZNOD3RYYF73VPTCR4GYYDSJRS3TYPU3AQHGG34U2S75TCGFWPTRYJS",
+      "type": "ed25519_signed_payload",
+      "key": "5223d15964cb25b98d17dfc9cb954a4331617bbaa4e5dc144c87df0b8b3b47d9",
+      "payload": "9641ff797553b36084e91ba38e53a2c184e72d1b18a8a7f2c36aa6cb66e473f6396b87b8e305feeaf98a3c3630392632dcf0fa6c10398dbe5352ff662316cf9c"
+    },
+    {
+      "strkey": "SAB5556L5AN5KSR5WF7UOEFDCIODEWEO7H2UR4S5R62DFTQOGLKOVZDY",
+      "type": "ed25519_private_key",
+      "seed": "03def7cbe81bd54a3db17f4710a3121c32588ef9f548f25d8fb432ce0e32d4ea"
+    },
+    {
+      "strkey": "SB65MHFA2Z342DX4FNKHH2KCNR5JRM7GIVTWQLKG5Z6L3AAH4UZLZV4E",
+      "type": "ed25519_private_key",
+      "seed": "7dd61ca0d677cd0efc2b5473e9426c7a98b3e64567682d46ee7cbd8007e532bc"
+    },
+    {
+      "strkey": "SBCVMMCBEDB64TVJZFYJOJAERZC4YVVUOE6SYR2Y76CBTENGUSGWRRVO",
+      "type": "ed25519_private_key",
+      "seed": "4556304120c3ee4ea9c9709724048e45cc56b4713d2c4758ff841991a6a48d68"
+    },
+    {
+      "strkey": "SBGWKM3CD4IL47QN6X54N6Y33T3JDNVI6AIJ6CD5IM47HG3IG4O36XCU",
+      "type": "ed25519_private_key",
+      "seed": "4d6533621f10be7e0df5fbc6fb1bdcf691b6a8f0109f087d4339f39b68371dbf"
+    },
+    {
+      "strkey": "SBU2RRGLXH3E5CQHTD3ODLDF2BWDCYUSSBLLZ5GNW7JXHDIYKXZWHOKR",
+      "type": "ed25519_private_key",
+      "seed": "69a8c4cbb9f64e8a0798f6e1ac65d06c3162929056bcf4cdb7d3738d1855f363"
+    },
+    {
+      "strkey": "SC2RDTRNSHXJNCWEUVO7VGUSPNRAWFCQDPP6BGN4JFMWDSEZBRAPANYW",
+      "type": "ed25519_private_key",
+      "seed": "b511ce2d91ee968ac4a55dfa9a927b620b14501bdfe099bc495961c8990c40f0"
+    },
+    {
+      "strkey": "SCEMFYOSFZ5MUXDKTLZ2GC5RTOJO6FGTAJCF3CCPZXSLXA2GX6QUYOA7",
+      "type": "ed25519_private_key",
+      "seed": "88c2e1d22e7aca5c6a9af3a30bb19b92ef14d302445d884fcde4bb8346bfa14c"
+    },
+    {
+      "strkey": "SCGNLQKTZ4XCDUGVIADRVOD4DEVNYZ5A7PGLIIZQGH7QEHK6DYODTFEH",
+      "type": "ed25519_private_key",
+      "seed": "8cd5c153cf2e21d0d540071ab87c192adc67a0fbccb4233031ff021d5e1e1c39"
+    },
+    {
+      "strkey": "SCZTUEKSEH2VYZQC6VLOTOM4ZDLMAGV4LUMH4AASZ4ORF27V2X64F2S2",
+      "type": "ed25519_private_key",
+      "seed": "b33a115221f55c6602f556e9b99cc8d6c01abc5d187e0012cf1d12ebf5d5fdc2"
+    },
+    {
+      "strkey": "SDH6R7PMU4WIUEXSM66LFE4JCUHGYRTLTOXVUV5GUEPITQEO3INRLHER",
+      "type": "ed25519_private_key",
+      "seed": "cfe8fdeca72c8a12f267bcb29389150e6c466b9baf5a57a6a11e89c08eda1b15"
+    },
+    {
+      "strkey": "SDJHRQF4GCMIIKAAAQ6IHY42X73FQFLHUULAPSKKD4DFDM7UXWWCRHBE",
+      "type": "ed25519_private_key",
+      "seed": "d278c0bc3098842800043c83e39abff6581567a51607c94a1f0651b3f4bdac28"
+    },
+    {
+      "strkey": "TAQCSRX2RIDJNHFIFHWD63X7D7D6TRT5Y2S6E3TEMXTG5W3OECHZ2OG4",
+      "type": "pre_auth_tx",
+      "hash": "202946fa8a06969ca829ec3f6eff1fc7e9c67dc6a5e26e6465e66edb6e208f9d"
+    },
+    {
+      "strkey": "TB65MHFA2Z342DX4FNKHH2KCNR5JRM7GIVTWQLKG5Z6L3AAH4UZLZM5K",
+      "type": "pre_auth_tx",
+      "hash": "7dd61ca0d677cd0efc2b5473e9426c7a98b3e64567682d46ee7cbd8007e532bc"
+    },
+    {
+      "strkey": "TBU2RRGLXH3E5CQHTD3ODLDF2BWDCYUSSBLLZ5GNW7JXHDIYKXZWHXL7",
+      "type": "pre_auth_tx",
+      "hash": "69a8c4cbb9f64e8a0798f6e1ac65d06c3162929056bcf4cdb7d3738d1855f363"
+    },
+    {
+      "strkey": "TDNA2V62PVEFBZ74CDJKTUHLY4Y7PL5UAV2MAM4VWF6USFE3SH234BSS",
+      "type": "pre_auth_tx",
+      "hash": "da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be"
+    },
+    {
+      "strkey": "WA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQGAAAAAAAAAPCIA6IG",
+      "type": "muxed_contract",
+      "hash": "363eaa3867841fbad0f4ed88c779e4fe66e56a2470dc98c0ec9c073d05c7b103",
+      "id": "123456"
+    },
+    {
+      "strkey": "WA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAAAWWC",
+      "type": "muxed_contract",
+      "hash": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "id": "0"
+    },
+    {
+      "strkey": "WA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAACWJY",
+      "type": "muxed_contract",
+      "hash": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
+      "id": "9223372036854775808"
+    },
+    {
+      "strkey": "XB65MHFA2Z342DX4FNKHH2KCNR5JRM7GIVTWQLKG5Z6L3AAH4UZLYIYT",
+      "type": "hash_x",
+      "hash": "7dd61ca0d677cd0efc2b5473e9426c7a98b3e64567682d46ee7cbd8007e532bc"
+    },
+    {
+      "strkey": "XBU2RRGLXH3E5CQHTD3ODLDF2BWDCYUSSBLLZ5GNW7JXHDIYKXZWGTOG",
+      "type": "hash_x",
+      "hash": "69a8c4cbb9f64e8a0798f6e1ac65d06c3162929056bcf4cdb7d3738d1855f363"
+    },
+    {
+      "strkey": "XDNA2V62PVEFBZ74CDJKTUHLY4Y7PL5UAV2MAM4VWF6USFE3SH235FXL",
+      "type": "hash_x",
+      "hash": "da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be"
+    },
+    {
+      "strkey": "XDRPF6NZRR7EEVO7ESIWUDXHAOMM2QSKIQQBJK6I2FB7YKDZES5UCLWD",
+      "type": "hash_x",
+      "hash": "e2f2f9b98c7e4255df24916a0ee70398cd424a442014abc8d143fc287924bb41"
+    }
+  ],
+  "invalid": [
+    {
+      "strkey": "B47QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVA4D",
+      "error": "unsupported_version"
+    },
+    {
+      "strkey": "B=AAD6DBUX6J22DMZOHIEZTEQ64CVCHEDRKWZONFEUL5Q26QD7R76RGR4TU",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUADTYY",
+      "error": "unsupported_version"
+    },
+    {
+      "strkey": "BAAAAAAAAAAK3EY",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAAD6DBUX6J22DMZOHIEZTEQ64CVCHEDRKWZONFEUL5Q26QD7R76RGR4T",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAAD6DBUX6J22DMZOHIEZTEQ64CVCHEDRKWZONFEUL5Q26QD7R76RGR4TV",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAAD6DBUX6J22DMZOHIEZTEQ64CVCHEDRKWZONFEUL5Q26QD7R76RGR4TW",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAAD6DBUX6J22DMZOHIEZTEQ64CVCHEDRKWZONFEUL5Q26QD7R76RGR4TX",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAAD6DBUX6J22DMZOHIEZTEQ64CVCHEDRKWZONFEUL5Q26QD7R76RGX74RYA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAADMPVKHBTYIH522D2O3CGHPHSP4ZXFNISHBXEYYDWJYBZ5AXD3C3NP",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAADMPVKHBTYIH522D2O3CGHPHSP4ZXFNISHBXEYYDWJYBZ5AXD3CA3GDEA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAADMPVKHBTYIH522D2O3CGHPHSP4ZXFNISHBXEYYDWJYBZ5AXD3CA3GDEAAAA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAADMPVKHBTYIH522D2O3CGHPHSP4ZXFNISHBXEYYDWJYBZ5AXD3CA3GDEAAAAAAA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "BAAT6DBUX6J22DMZOHIEZTEQ64CVCHEDRKWZONFEUL5Q26QD7R76RGXACA",
+      "error": "unsupported_version"
+    },
+    {
+      "strkey": "BAT7RRVQBTQ3TEDLDICV7GNX6GE3KVQFJCNOESUI4QNA4TYYR44P2FS5PZYQ",
+      "error": "unsupported_version"
+    },
+    {
+      "strkey": "CA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUWD",
+      "error": "malformed"
+    },
+    {
+      "strkey": "CA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJV72WFI",
+      "error": "malformed"
+    },
+    {
+      "strkey": "G47QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVP2I",
+      "error": "unsupported_version"
+    },
+    {
+      "strkey": "G=3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQHES5",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GA3D5KRYM6CB7OWOOOORR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQHES5",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQGAXE",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "GA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQHE55",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "GA7QYNF7SOWQ3GLR2BGMZEHXAVIRZ",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUACUSI",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJV75ERQ",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVSGZA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GAAAAAAAACGC6",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GADE5QJ2TY7S5ZB65Q43DFGWYWCPHIYDJ2326KZGAGBN7AE5UY6JVDRRA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GB6OWYST45X57HCJY5XWOHDEBULB6XUROWPIKW77L5DSNANBEQGUPADT2",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GB6OWYST45X57HCJY5XWOHDEBULB6XUROWPIKW77L5DSNANBEQGUPADT2T",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GBPXXOA5N4JYPESHAADMQKBPWZWQDQ64ZV6ZL2S3LAGW4SY7NTCMWIVT",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "GDWZCOEQRODFCH6ISYQPWY67L3ULLWS5ISXYYL5GH43W7Y",
+      "error": "malformed"
+    },
+    {
+      "strkey": "GDXIIZTKTLVYCBHURXL2UPMTYXOVNI7BRAEFQCP6EZCY4JLKY4VKFNLT",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "L47QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUSV4",
+      "error": "unsupported_version"
+    },
+    {
+      "strkey": "L=A7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUPJN",
+      "error": "malformed"
+    },
+    {
+      "strkey": "LA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "LA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAGPZA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "LA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUPJ",
+      "error": "malformed"
+    },
+    {
+      "strkey": "LA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUPJNA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "LA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUPJNAAA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "LA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUPJNAAAAAA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "LA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJV7Z72Y",
+      "error": "malformed"
+    },
+    {
+      "strkey": "LAAAAAAAADLH2",
+      "error": "malformed"
+    },
+    {
+      "strkey": "M47QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAABIFE",
+      "error": "unsupported_version"
+    },
+    {
+      "strkey": "M47QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAACJUQ",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAACJUK",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAACJUK===",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAACJUO",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAACJUR",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUERUKZ4JVTO6777RIDA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAAV75I",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJ4",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJ6",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJ7",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJB",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJC",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJE",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJI",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJLH",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJLK===",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJLKA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJQ",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJY",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MA7QYNF7SOWQ3GLR2DMLK",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MAQAA5L65LSYH7CQ3VTJ7F3HHLGCL3DSLAR2Y47263D56MNNGHSQSAAAAAAAAAAE2LP2",
+      "error": "malformed"
+    },
+    {
+      "strkey": "MBU2RRGLXH3E5CQHTD3ODLDF2BWDCYUSSBLLZ5GNW7JXHDIYKXZWGTOG",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "PA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQGAAAAAAGK7I",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA3D5KRYM6CB7OWQ6TWYRR3Z4T7GNZLKERYNZGGA5SOAOPIFY6YQGAAAAAEQAAAAAAAAAAAAAAAAAABB",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAACAAAAAABNWT",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKY2",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKY3",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKY4",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKY5",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKY6",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKY7",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYR",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYS",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYT",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYU",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYV",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYW",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYX",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYY",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAEAAAAAAAAAAAAARKYZ",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAGAAAAAAAAAAAAAAAAAAACTP2",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAGAAAAAAAAAAAAAAAAAAACTP3",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAGAAAAAAAAAAAAAAAAAAACTPZ",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALGXJ",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALGXK",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALGXL",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALGXM",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALGXN",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALGXO",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALGXP",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAOQCAA4KVWLTJJFCJJFC7MPA7QYNF7SOWQ3GLR2GXUA7JUAAAAAEAAAAU",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAOQCAQDAQCQMBYIBEFAWDANBYHRAEISCMKBKFQXDAMRUGY4DXFH6",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAOQCAQDAQCQMBYIBEFAWDANBYHRAEISCMKBKFQXDAMRUGY4Z2PQ",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAQACAQDAQCQMBYIBEFAWDANBYHRAEISCMKBKFQXDAMRUGY4DUPB6IAAAAAAAAPM",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD7ZIHA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PACLVBTZGFKZBKERFMUDQQRJODWJLFAAQYF7XH6I6SXDYAPXP7LXYM37QTTGBGQI4LCA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PBJCHUKZMTFSLOMNC7P4TS4VJJBTCYL3XKSOLXAUJSD56C4LHND5SAAAABA5P7IKKHQ7JVFVSMJM7EWEBTDTL5XMXMFVVTMG65GUYEHAQCX6JHGGBLBW7EHIJJD7FH7HQL5FLDFBC22QJGTGQEHXVY4GEKCRHGGD7IBAAAAAS6LA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "PDPYP7E6NEYZSVOTV6M23OFM2XRIMPDUJABHGHHH2Y67X7JL25GW6AAAAAAAAAAAAAAJE",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "PDPYP7E6NEYZSVOTV6M23OFM2XRIMPDUJABHGHHH2Y67X7JL25GW6AAAAAAAAAAAAAAJEVA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UALAI",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJV764SE",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SAB5556L5AN5KSR5WF7UOEFDCIODEWEO7H2UR4S5R62DFTQOGLKOVZDYT",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SAFGAMN5Z6IHVI3IVEPIILS7ITZDYSCEPLN4FN5Z3IY63DRH4CIYEV",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SAFGAMN5Z6IHVI3IVEPIILS7ITZDYSCEPLN4FN5Z3IY63DRH4CIYEVIT",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "SB7OJNF5727F3RJUG5ASQJ3LUM44ELLNKW35ZZQDHMVUUQNGYW",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SB7OJNF5727F3RJUG5ASQJ3LUM44ELLNKW35ZZQDHMVUUQNGYWMEGB2W2",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SB7OJNF5727F3RJUG5ASQJ3LUM44ELLNKW35ZZQDHMVUUQNGYWMEGB2W2T",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SBCVMMCBEDB64TVJZFYJOJAERZC4YVVUOE6SYR2Y76CBTENGUSG",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SBCVMMCBEDB64TVJZFYJOJAERZC4YVVUOE6SYR2Y76CBTENGUSGWR",
+      "error": "malformed"
+    },
+    {
+      "strkey": "SBGWKM3CD4IL47QN6X54N6Y33T3JDNVI6AIJ6CD5IM47HG3IG4O36XCX",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "TA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJV73QGA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "TB65MHFA2Z342DX4FNKHH2KCNR5JRM7GIVTWQLKG5Z6L3AAH4UZLZM5",
+      "error": "malformed"
+    },
+    {
+      "strkey": "TDNA2V62PVEFBZ74CDJKTUHLY4Y7PL5UAV2MAM4VWF6USFE3SH23",
+      "error": "malformed"
+    },
+    {
+      "strkey": "W47QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAAAWWC",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "W47QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAADXHW",
+      "error": "unsupported_version"
+    },
+    {
+      "strkey": "WA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAAAAIOUI",
+      "error": "malformed"
+    },
+    {
+      "strkey": "WA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAAAWWA",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "WA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAAAWWC===",
+      "error": "malformed"
+    },
+    {
+      "strkey": "WA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAAAWWCA",
+      "error": "malformed"
+    },
+    {
+      "strkey": "WA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAAAWWD",
+      "error": "malformed"
+    },
+    {
+      "strkey": "WA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAAAAAAAUCCQ",
+      "error": "malformed"
+    },
+    {
+      "strkey": "XA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJV74CSY",
+      "error": "malformed"
+    },
+    {
+      "strkey": "XB65MHFA2Z342DX4FNKHH2KCNR5JRM7GIVTWQLKG5Z6L3AAH4UZLYIY",
+      "error": "checksum_mismatch"
+    },
+    {
+      "strkey": "XDNA2V62PVEFBZ74CDJKTUHLY4Y7PL5UAV2MAM4VWF6USFE3SH23",
+      "error": "malformed"
+    }
+  ]
+}
