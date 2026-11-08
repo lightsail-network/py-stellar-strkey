@@ -8,15 +8,15 @@ a contract address can't be mistaken for an account:
 ```python
 from stellar_strkey import Contract, Ed25519PublicKey, WrongStrkeyTypeError
 
-account = "GA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVSGZ"
+address = "GA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVSGZ"
 
-key = Ed25519PublicKey.from_string(account)
-assert key.key.hex().startswith("3f0c34bf")
-assert str(key) == account
+account = Ed25519PublicKey.from_string(address)
+assert account.key.hex().startswith("3f0c34bf")
+assert str(account) == address
 
-assert not Contract.is_valid(account)
+assert not Contract.is_valid(address)
 try:
-    Contract.from_string(account)
+    Contract.from_string(address)
 except WrongStrkeyTypeError as error:
     expected, found = error.expected, error.found
 assert (expected, found) == (Contract, Ed25519PublicKey)
@@ -34,10 +34,10 @@ address = "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJLK
 match parse(address):
     case Ed25519PublicKey(key):
         description = f"account {key.hex()}"
-    case MuxedEd25519Account(key, id):
-        description = f"account {key.hex()}, muxed ID {id}"
-    case Contract(hash):
-        description = f"contract {hash.hex()}"
+    case MuxedEd25519Account(key, muxed_id):
+        description = f"account {key.hex()}, muxed ID {muxed_id}"
+    case Contract(contract_hash):
+        description = f"contract {contract_hash.hex()}"
     case other:
         description = f"something else: {other!r}"
 
@@ -152,10 +152,10 @@ from stellar_strkey import Ed25519PrivateKey, WrongStrkeyTypeError, parse
 
 secret = "SBU2RRGLXH3E5CQHTD3ODLDF2BWDCYUSSBLLZ5GNW7JXHDIYKXZWHOKR"
 
-key = Ed25519PrivateKey.from_string(secret)
-assert str(key) == "<redacted>"
-assert repr(key) == "Ed25519PrivateKey(<redacted>)"
-assert key.reveal() == secret
+private_key = Ed25519PrivateKey.from_string(secret)
+assert str(private_key) == "<redacted>"
+assert repr(private_key) == "Ed25519PrivateKey(<redacted>)"
+assert private_key.reveal() == secret
 
 try:
     parse(secret)
@@ -163,9 +163,9 @@ except WrongStrkeyTypeError as error:
     refused = error.found
 assert refused is Ed25519PrivateKey
 
-# Private keys can't be pickled. Store or send key.reveal() instead.
+# Private keys can't be pickled. Store or send private_key.reveal() instead.
 try:
-    pickle.dumps(key)
+    pickle.dumps(private_key)
 except TypeError as error:
     message = str(error)
 assert "use reveal()" in message
