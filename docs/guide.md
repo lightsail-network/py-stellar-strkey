@@ -97,9 +97,12 @@ is a `ValueError`. Each subclass stands for a different thing to tell the user:
 `ChecksumMismatchError` is a kind of `MalformedStrkeyError`, so catch it first. The
 specific reason, such as a wrong length or invalid padding, is in the message.
 
-A parser for one type checks the version byte before the payload, so a strkey of another
-type raises `WrongStrkeyTypeError` whatever its length. The error says which type was
-expected and which was found:
+Decoding checks the input in this order: its overall length, its base32 encoding, the
+checksum, the version byte, and then the payload. A parser for one type therefore raises
+`WrongStrkeyTypeError` for any well-formed strkey of another type, even one whose payload
+wouldn't fit the expected type. Input that isn't a well-formed strkey at all, such as one
+longer than any type allows, raises `MalformedStrkeyError` first. The error says which
+type was expected and which was found:
 
 ```python
 from stellar_strkey import (
