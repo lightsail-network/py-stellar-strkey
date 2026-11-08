@@ -34,14 +34,14 @@ from stellar_strkey import (
 )
 
 # When you know the type, use its class. Anything else is rejected.
-key = Ed25519PublicKey.from_string(
+account = Ed25519PublicKey.from_string(
     "GA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVSGZ"
 )
-assert key.key.hex() == (
+assert account.key.hex() == (
     "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a"
 )
 # The same 32 bytes as a contract give a different strkey.
-assert str(Contract(key.key)) == (
+assert str(Contract(account.key)) == (
     "CA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUWDA"
 )
 
@@ -49,8 +49,8 @@ assert str(Contract(key.key)) == (
 match parse("MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJLK"):
     case Ed25519PublicKey(key):
         description = f"account {key.hex()}"
-    case MuxedEd25519Account(key, id):
-        description = f"muxed account {key.hex()} with ID {id}"
+    case MuxedEd25519Account(key, muxed_id):
+        description = f"muxed account {key.hex()} with ID {muxed_id}"
     case other:
         description = f"something else: {other!r}"
 assert description.endswith("with ID 9223372036854775808")
@@ -75,16 +75,16 @@ from stellar_strkey import Ed25519PrivateKey, WrongStrkeyTypeError, parse
 # source code. This is a well-known test seed.
 secret = "SBU2RRGLXH3E5CQHTD3ODLDF2BWDCYUSSBLLZ5GNW7JXHDIYKXZWHOKR"
 
-key = Ed25519PrivateKey.from_string(secret)
-seed = key.seed  # the raw 32 bytes, for example for an ed25519 signing library
+private_key = Ed25519PrivateKey.from_string(secret)
+seed = private_key.seed  # the raw 32 bytes, for example for an ed25519 signing library
 assert len(seed) == 32
 
 # Printing or logging the key never shows the seed.
-assert str(key) == "<redacted>"
-assert repr(key) == "Ed25519PrivateKey(<redacted>)"
+assert str(private_key) == "<redacted>"
+assert repr(private_key) == "Ed25519PrivateKey(<redacted>)"
 
 # Get the strkey back only where you mean to.
-assert key.reveal() == secret
+assert private_key.reveal() == secret
 
 try:
     parse(secret)
