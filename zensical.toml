@@ -1,6 +1,6 @@
 [project]
-site_name = "stellar-strkey"
-site_description = "Strict, typed, dependency-free encoding and decoding of Stellar strkeys (SEP-23)."
+site_name = "py-stellar-strkey"
+site_description = "Strict, typed, dependency-free Python library for encoding and decoding Stellar strkeys (SEP-23)."
 site_url = "https://stellar-strkey.readthedocs.io/"
 repo_url = "https://github.com/lightsail-network/py-stellar-strkey"
 repo_name = "lightsail-network/py-stellar-strkey"

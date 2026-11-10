@@ -1,6 +1,7 @@
-# stellar-strkey
+# py-stellar-strkey
 
-Encode and decode [Stellar strkeys](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0023.md),
+A Python library to encode and decode
+[Stellar strkeys](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0023.md),
 the `G...`, `C...` and `M...` strings that identify accounts, contracts, signers and
 other things on the Stellar network.
 
