@@ -126,12 +126,7 @@ class _Strkey(ABC):
         # `G...` parser is reported as the wrong type rather than as too long.
         version, payload = decode(value)
         if version != cls._VERSION_BYTE:
-            found = _TYPES_BY_VERSION_BYTE.get(version)
-            if found is None:
-                raise UnsupportedVersionError(
-                    f"unsupported version byte {version:#04x}"
-                )
-            raise WrongStrkeyTypeError(cls, found)
+            raise WrongStrkeyTypeError(cls, _type_for_version_byte(version))
         return _from_payload(cls, payload)
 
     @classmethod
@@ -560,6 +555,13 @@ _TYPES_BY_VERSION_BYTE: Final[dict[int, type[Strkey | Ed25519PrivateKey]]] = {
 }
 
 
+def _type_for_version_byte(version: int) -> type[Strkey | Ed25519PrivateKey]:
+    strkey_type = _TYPES_BY_VERSION_BYTE.get(version)
+    if strkey_type is None:
+        raise UnsupportedVersionError(f"unsupported version byte {version:#04x}")
+    return strkey_type
+
+
 def parse(value: str) -> Strkey:
     """Decode a strkey whose type is not known in advance.
 
@@ -581,9 +583,7 @@ def parse(value: str) -> Strkey:
         UnsupportedVersionError: If the version of `value` is unknown.
     """
     version, payload = decode(value)
-    strkey_type = _TYPES_BY_VERSION_BYTE.get(version)
-    if strkey_type is None:
-        raise UnsupportedVersionError(f"unsupported version byte {version:#04x}")
+    strkey_type = _type_for_version_byte(version)
     if issubclass(strkey_type, Ed25519PrivateKey):
         raise WrongStrkeyTypeError(None, strkey_type)
     return _from_payload(strkey_type, payload)
