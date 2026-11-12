@@ -4,7 +4,16 @@ import hmac
 import operator
 from abc import ABC, abstractmethod
 from collections.abc import Callable
-from typing import ClassVar, Final, NoReturn, Self, SupportsIndex, TypeAlias, TypeVar
+from typing import (
+    ClassVar,
+    Final,
+    NoReturn,
+    Self,
+    SupportsIndex,
+    TypeAlias,
+    TypeVar,
+    cast,
+)
 
 from ._codec import decode, encode
 from ._errors import (
@@ -131,7 +140,9 @@ class _Strkey(ABC):
         # `G...` parser is reported as the wrong type rather than as too long.
         version, payload = decode(value)
         if version != cls._VERSION_BYTE:
-            raise WrongStrkeyTypeError(cls, _type_for_version_byte(version))
+            # Only the ten types below are concrete, so cls is one of them.
+            expected = cast("type[Strkey | Ed25519PrivateKey]", cls)
+            raise WrongStrkeyTypeError(expected, _type_for_version_byte(version))
         return _from_payload(cls, payload)
 
     @classmethod
