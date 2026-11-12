@@ -92,7 +92,8 @@ def _from_payload(strkey_type: type[_T], payload: bytes) -> _T:
     except ValueError as error:
         # Invalid key material is a plain ValueError, but inside a strkey it means that
         # the strkey is malformed. The message never contains the input.
-        raise MalformedStrkeyError(str(error)) from None
+        message = f"strkey decodes to invalid data: {error}"
+        raise MalformedStrkeyError(message) from None
 
 
 class _Strkey(ABC):

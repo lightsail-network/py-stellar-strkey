@@ -100,6 +100,7 @@ def test_invalid_key_material_inside_a_strkey_is_malformed(
     for parser in (parse, strkey_type.from_string):
         with pytest.raises(MalformedStrkeyError) as excinfo:
             parser(strkey)
+        assert str(excinfo.value).startswith("strkey decodes to invalid data: ")
         assert_shows_no_other_exception(excinfo.value)
 
 
