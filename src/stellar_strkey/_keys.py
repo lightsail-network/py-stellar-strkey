@@ -528,6 +528,8 @@ class MuxedContract(_Public):
         return self._hash + self._id.to_bytes(_ID_LEN, "big")
 
 
+# Kept as a `TypeAlias` rather than a `type` statement, whose alias `isinstance()`
+# does not accept.
 Strkey: TypeAlias = (
     Ed25519PublicKey
     | MuxedEd25519Account
