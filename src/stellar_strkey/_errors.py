@@ -10,6 +10,13 @@ Messages never contain the strkey or key material being processed, because the i
 may be a secret seed and exception messages tend to end up in logs.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ._keys import Ed25519PrivateKey, Strkey
+
 
 class StrkeyError(ValueError):
     """Base class of the errors raised when a string is not an acceptable strkey."""
@@ -48,10 +55,14 @@ class WrongStrkeyTypeError(StrkeyError):
         found: The type of the strkey that was given.
     """
 
-    expected: type[object] | None
-    found: type[object]
+    expected: type[Strkey | Ed25519PrivateKey] | None
+    found: type[Strkey | Ed25519PrivateKey]
 
-    def __init__(self, expected: type[object] | None, found: type[object]) -> None:
+    def __init__(
+        self,
+        expected: type[Strkey | Ed25519PrivateKey] | None,
+        found: type[Strkey | Ed25519PrivateKey],
+    ) -> None:
         # Passing the attributes to the base class keeps the exception picklable.
         super().__init__(expected, found)
         self.expected = expected
