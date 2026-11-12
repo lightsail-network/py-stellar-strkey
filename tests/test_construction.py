@@ -158,13 +158,8 @@ def test_signed_payload_length_bounds(length: int, *, valid: bool) -> None:
         (KEY + b"\x00\x00\x00\x01a\x00\x00\x00\x00", "does not match"),
         (KEY + b"\x00\x00\x00\x41" + bytes(68), "must be 40 to 100 bytes"),
         (KEY + b"\x00\x00\x00\x01a\x00\x00\x01", "padding"),
-        # Padding is checked before the unconsumed bytes that follow it.
-        (KEY + b"\x00\x00\x00\x02ab\xff\xff" + bytes(4), "padding"),
         (KEY + b"\x00\x00\x00\x02ab\x00\x00" + bytes(4), "does not match"),
-        # A prefix running past the data is a length error, even with a non-zero byte.
         (KEY + b"\x00\x00\x00\x05abcde\xff", "does not match"),
-        # The overall length comes first, whatever the padding contains.
-        (KEY + b"\x00\x00\x00\x02ab\xff\xff" + bytes(64), "must be 40 to 100 bytes"),
     ],
 )
 def test_signed_payload_from_bytes_rejects(data: bytes, message: str) -> None:

@@ -405,16 +405,12 @@ class Ed25519SignedPayload(_Public):
             )
 
         payload_len = int.from_bytes(data[_KEY_LEN:payload_start], "big")
-        padding_start = payload_start + payload_len
-        padding_end = padding_start + _xdr_padding_len(payload_len)
-        mismatch = "signed payload length prefix does not match the data"
-        if padding_end > len(data):
-            raise ValueError(mismatch)
-        if any(data[padding_start:padding_end]):
+        payload_end = payload_start + payload_len
+        if payload_end + _xdr_padding_len(payload_len) != len(data):
+            raise ValueError("signed payload length prefix does not match the data")
+        if any(data[payload_end:]):
             raise ValueError("signed payload padding must be zero")
-        if padding_end != len(data):
-            raise ValueError(mismatch)
-        return cls(data[:_KEY_LEN], data[payload_start:padding_start])
+        return cls(data[:_KEY_LEN], data[payload_start:payload_end])
 
     def to_bytes(self) -> bytes:
         """Return the public key followed by the XDR-encoded payload."""
