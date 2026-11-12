@@ -111,7 +111,7 @@ def test_structural_pattern_matching() -> None:
     match parse(str(MuxedEd25519Account(KEY, 7))):
         case MuxedEd25519Account(key, id):
             assert (key, id) == (KEY, 7)
-        case _:  # pragma: no cover
+        case _:
             pytest.fail("did not match")
 
 
