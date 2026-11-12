@@ -1,5 +1,6 @@
 """Constructors, `from_bytes` and `to_bytes`, and the binary form of each type."""
 
+import enum
 from typing import Any
 
 import pytest
@@ -128,6 +129,17 @@ def test_muxed_id_is_validated(strkey_type: Any) -> None:
         strkey_type(KEY[:-1], 0)
     with raises_plain_value_error():
         strkey_type.from_bytes(KEY)
+
+
+class Slot(enum.IntEnum):
+    FIRST = 1
+
+
+@pytest.mark.parametrize("strkey_type", [MuxedEd25519Account, MuxedContract])
+def test_int_subclasses_are_stored_as_int(strkey_type: Any) -> None:
+    muxed = strkey_type(KEY, Slot.FIRST)
+    assert type(muxed.id) is int
+    assert muxed == strkey_type(KEY, 1)
 
 
 def test_muxed_id_is_big_endian() -> None:
