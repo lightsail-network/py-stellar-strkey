@@ -13,6 +13,7 @@ from typing import (
     TypeAlias,
     TypeVar,
     cast,
+    final,
 )
 
 from ._codec import decode, encode
@@ -243,6 +244,7 @@ class _Hash(_Public):
         return self._hash
 
 
+@final
 class Ed25519PublicKey(_Public):
     """An ed25519 public key (`G...`)."""
 
@@ -280,6 +282,7 @@ _NOT_PICKLABLE: Final = (
 )
 
 
+@final
 class Ed25519PrivateKey(_Strkey):
     """An ed25519 private key seed (`S...`).
 
@@ -357,6 +360,7 @@ class Ed25519PrivateKey(_Strkey):
         raise TypeError(_NOT_PICKLABLE)
 
 
+@final
 class MuxedEd25519Account(_Public):
     """A multiplexed ed25519 account (`M...`)."""
 
@@ -397,6 +401,7 @@ class MuxedEd25519Account(_Public):
         return self._key + self._id.to_bytes(_ID_LEN, "big")
 
 
+@final
 class Ed25519SignedPayload(_Public):
     """An ed25519 signed payload signer (`P...`, CAP-40)."""
 
@@ -467,6 +472,7 @@ class Ed25519SignedPayload(_Public):
         )
 
 
+@final
 class PreAuthTx(_Hash):
     """A pre-authorized transaction hash signer (`T...`)."""
 
@@ -474,6 +480,7 @@ class PreAuthTx(_Hash):
     _VERSION_BYTE: ClassVar[int] = _PRE_AUTH_TX
 
 
+@final
 class HashX(_Hash):
     """A SHA-256 hash signer, satisfied by revealing its preimage (`X...`)."""
 
@@ -481,6 +488,7 @@ class HashX(_Hash):
     _VERSION_BYTE: ClassVar[int] = _HASH_X
 
 
+@final
 class Contract(_Hash):
     """A smart contract address (`C...`)."""
 
@@ -488,6 +496,7 @@ class Contract(_Hash):
     _VERSION_BYTE: ClassVar[int] = _CONTRACT
 
 
+@final
 class LiquidityPool(_Hash):
     """A liquidity pool ID (`L...`)."""
 
@@ -495,6 +504,7 @@ class LiquidityPool(_Hash):
     _VERSION_BYTE: ClassVar[int] = _LIQUIDITY_POOL
 
 
+@final
 class ClaimableBalance(_Hash):
     """A version 0 claimable balance ID (`B...`)."""
 
@@ -525,6 +535,7 @@ class ClaimableBalance(_Hash):
         return _CLAIMABLE_BALANCE_V0 + self._hash
 
 
+@final
 class MuxedContract(_Public):
     """A multiplexed smart contract address (`W...`, CAP-84)."""
 

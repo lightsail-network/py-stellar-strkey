@@ -24,7 +24,7 @@ from stellar_strkey import (
     parse,
 )
 
-from .support import KEY, raises_plain_value_error, strkeys
+from .support import ALL_TYPES, KEY, raises_plain_value_error, strkeys
 
 
 def test_keys_are_immutable_and_slotted() -> None:
@@ -125,6 +125,11 @@ def test_wrong_type_error_is_picklable_and_readable() -> None:
     )
     restored_none = pickle.loads(pickle.dumps(WrongStrkeyTypeError(None, Contract)))
     assert restored_none.expected is None
+
+
+@pytest.mark.parametrize("strkey_type", ALL_TYPES)
+def test_types_are_final(strkey_type: type[object]) -> None:
+    assert getattr(strkey_type, "__final__", False)
 
 
 def test_error_hierarchy() -> None:
