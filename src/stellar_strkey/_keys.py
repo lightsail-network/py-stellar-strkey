@@ -5,7 +5,6 @@ from abc import ABC, abstractmethod
 from collections.abc import Callable
 from typing import ClassVar, Final, NoReturn, Self, SupportsIndex, TypeAlias, TypeVar
 
-from ._codec import MAX_PAYLOAD_LEN as _MAX_ANY_PAYLOAD_LEN
 from ._codec import decode, encode
 from ._errors import (
     MalformedStrkeyError,
@@ -398,10 +397,11 @@ class Ed25519SignedPayload(_Public):
         """Build an instance from a public key and an XDR-encoded payload."""
         data = _require_bytes("signed payload", data)
         payload_start = _KEY_LEN + _LENGTH_PREFIX_LEN
-        if not payload_start + _XDR_ALIGNMENT <= len(data) <= _MAX_ANY_PAYLOAD_LEN:
+        min_len = payload_start + _XDR_ALIGNMENT
+        max_len = payload_start + _MAX_INNER_PAYLOAD_LEN
+        if not min_len <= len(data) <= max_len:
             raise ValueError(
-                f"signed payload must be {payload_start + _XDR_ALIGNMENT} to "
-                f"{_MAX_ANY_PAYLOAD_LEN} bytes, got {len(data)}"
+                f"signed payload must be {min_len} to {max_len} bytes, got {len(data)}"
             )
 
         payload_len = int.from_bytes(data[_KEY_LEN:payload_start], "big")

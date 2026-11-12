@@ -19,7 +19,7 @@ from stellar_strkey import (
     WrongStrkeyTypeError,
     parse,
 )
-from stellar_strkey._codec import encode
+from stellar_strkey._codec import MAX_PAYLOAD_LEN, encode
 
 from .support import ALL_TYPES, KEY, SEED, assert_shows_no_other_exception, strkeys
 
@@ -69,6 +69,11 @@ def test_from_string_reports_a_wrong_length_for_the_right_type(
 ) -> None:
     with pytest.raises(MalformedStrkeyError):
         strkey_type.from_string(encode(strkey_type._VERSION_BYTE, bytes(length)))
+
+
+def test_the_decoding_limit_is_the_largest_binary_form_of_any_type() -> None:
+    largest = Ed25519SignedPayload(KEY, bytes(64))
+    assert len(largest.to_bytes()) == MAX_PAYLOAD_LEN
 
 
 @pytest.mark.parametrize("strkey_type", [Contract, Ed25519PrivateKey])
