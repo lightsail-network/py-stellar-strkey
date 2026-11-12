@@ -214,5 +214,6 @@ the version byte and checksum.
 | `B`    | `ClaimableBalance`     | `hash`           | `0x00` version byte, 32-byte hash     |
 | `W`    | `MuxedContract`        | `hash`, `id`     | 32-byte hash, 8-byte big-endian ID    |
 
-`from_bytes()` raises `ValueError` for invalid input, like the constructors, except that
-a claimable balance of an unknown version raises `UnsupportedVersionError`.
+`from_bytes()` raises `ValueError` for invalid input, like the constructors. The binary
+form of a claimable balance starts with its version, so an unknown version there raises
+`UnsupportedVersionError`, as it does in a string.
