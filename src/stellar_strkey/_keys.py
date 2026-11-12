@@ -230,7 +230,12 @@ class _Hash(_Public):
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
-        """Build an instance from a 32-byte hash."""
+        """Build an instance from a 32-byte hash.
+
+        Raises:
+            TypeError: If `data` is not `bytes`.
+            ValueError: If `data` is not 32 bytes long.
+        """
         return cls(data)
 
     def to_bytes(self) -> bytes:
@@ -257,7 +262,12 @@ class Ed25519PublicKey(_Public):
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
-        """Build an instance from a 32-byte public key."""
+        """Build an instance from a 32-byte public key.
+
+        Raises:
+            TypeError: If `data` is not `bytes`.
+            ValueError: If `data` is not 32 bytes long.
+        """
         return cls(data)
 
     def to_bytes(self) -> bytes:
@@ -302,7 +312,12 @@ class Ed25519PrivateKey(_Strkey):
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
-        """Build an instance from a 32-byte seed."""
+        """Build an instance from a 32-byte seed.
+
+        Raises:
+            TypeError: If `data` is not `bytes`.
+            ValueError: If `data` is not 32 bytes long.
+        """
         return cls(data)
 
     def to_bytes(self) -> bytes:
@@ -368,7 +383,12 @@ class MuxedEd25519Account(_Public):
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
-        """Build an instance from a public key followed by a big-endian ID."""
+        """Build an instance from a public key followed by a big-endian ID.
+
+        Raises:
+            TypeError: If `data` is not `bytes`.
+            ValueError: If `data` is not 40 bytes long.
+        """
         data = _require_len("muxed account", data, _MUXED_PAYLOAD_LEN)
         return cls(data[:_KEY_LEN], int.from_bytes(data[_KEY_LEN:], "big"))
 
@@ -410,7 +430,13 @@ class Ed25519SignedPayload(_Public):
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
-        """Build an instance from a public key and an XDR-encoded payload."""
+        """Build an instance from a public key and an XDR-encoded payload.
+
+        Raises:
+            TypeError: If `data` is not `bytes`.
+            ValueError: If `data` is not a public key followed by a payload of 1 to 64
+                bytes with its length prefix and zero padding.
+        """
         data = _require_bytes("signed payload", data)
         payload_start = _KEY_LEN + _LENGTH_PREFIX_LEN
         min_len = payload_start + _XDR_ALIGNMENT
@@ -525,7 +551,12 @@ class MuxedContract(_Public):
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
-        """Build an instance from a contract hash followed by a big-endian ID."""
+        """Build an instance from a contract hash followed by a big-endian ID.
+
+        Raises:
+            TypeError: If `data` is not `bytes`.
+            ValueError: If `data` is not 40 bytes long.
+        """
         data = _require_len("muxed contract", data, _MUXED_PAYLOAD_LEN)
         return cls(data[:_KEY_LEN], int.from_bytes(data[_KEY_LEN:], "big"))
 
