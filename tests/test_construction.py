@@ -105,6 +105,16 @@ def test_exact_bytes_are_not_copied() -> None:
     assert Ed25519PublicKey(KEY).key is KEY
 
 
+def test_fields_hold_the_constructor_arguments() -> None:
+    assert Contract(hash=KEY).hash == KEY
+    signed = Ed25519SignedPayload(key=KEY, payload=b"ab")
+    assert (signed.key, signed.payload) == (KEY, b"ab")
+    muxed = MuxedEd25519Account(key=KEY, id=7)
+    assert (muxed.key, muxed.id) == (KEY, 7)
+    muxed_contract = MuxedContract(hash=KEY, id=7)
+    assert (muxed_contract.hash, muxed_contract.id) == (KEY, 7)
+
+
 @pytest.mark.parametrize("strkey_type", [MuxedEd25519Account, MuxedContract])
 def test_muxed_id_is_validated(strkey_type: Any) -> None:
     assert strkey_type(KEY, 2**64 - 1).id == 2**64 - 1

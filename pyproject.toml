@@ -82,7 +82,7 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "src/stellar_strkey/_keys.py" = [
-    "A003", # `id` and `hash` are the natural names of these fields
+    "A002", # `id` and `hash` are the natural names of these parameters
 ]
 "tests/**" = [
     "D",       # test names are the documentation

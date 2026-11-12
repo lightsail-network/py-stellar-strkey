@@ -176,12 +176,12 @@ pick up a secret by accident. The error tells you that it was given one, which i
 warning the user about. Input that starts with `S` but has an invalid encoding or
 checksum is reported as malformed, like any other invalid input.
 
-A private key is also kept out of generic serialization. Unlike the other types, it
-isn't a dataclass and can't be pickled, so `dataclasses.asdict()`, msgspec, pydantic and
-pickle can't write the seed out, even when the key sits inside your own data. To store or
-send a key, use `reveal()` explicitly. `copy.copy()` and `copy.deepcopy()` return the key
-itself, since it is immutable. Only `seed` and `to_bytes()` return the raw seed, so don't
-log those.
+A private key is also kept out of generic serialization. Like the other types, it is a
+plain class that serializers don't take apart, and unlike them it can't be pickled. So
+`dataclasses.asdict()`, msgspec, pydantic and pickle can't write the seed out, even when
+the key sits inside your own data. To store or send a key, use `reveal()` explicitly.
+`copy.copy()` and `copy.deepcopy()` return the key itself, since it is immutable. Only
+`seed` and `to_bytes()` return the raw seed, so don't log those.
 
 !!! warning "Error trackers record local variables"
 

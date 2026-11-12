@@ -1,9 +1,9 @@
 """Behaviour as Python objects, the error classes and the public API."""
 
 import copy
+import dataclasses
 import pickle
 import traceback
-from dataclasses import FrozenInstanceError
 
 import pytest
 from hypothesis import given
@@ -24,18 +24,23 @@ from stellar_strkey import (
     parse,
 )
 
-from .support import KEY, strkeys
+from .support import KEY, raises_plain_value_error, strkeys
 
 
 def test_keys_are_immutable_and_slotted() -> None:
     key = Ed25519PublicKey(KEY)
-    with pytest.raises(FrozenInstanceError):
+    with pytest.raises(AttributeError):
         key.key = bytes(32)  # type: ignore[misc]  # pyright: ignore[reportAttributeAccessIssue]
+    with pytest.raises(AttributeError):
+        key._key = bytes(32)  # pyright: ignore[reportPrivateUsage]
+    with pytest.raises(AttributeError):
+        del key.key  # pyright: ignore[reportAttributeAccessIssue]
     contract = Contract(KEY)
     assert not hasattr(key, "__dict__")
     assert not hasattr(contract, "__dict__")
-    with pytest.raises((AttributeError, TypeError)):
-        contract.other = 1  # type: ignore[attr-defined]  # pyright: ignore[reportAttributeAccessIssue]
+    with pytest.raises(AttributeError):
+        contract.other = 1
+    assert key.key == KEY
 
 
 def test_equality_and_hash_depend_on_type_and_value() -> None:
@@ -44,6 +49,7 @@ def test_equality_and_hash_depend_on_type_and_value() -> None:
     assert Contract(KEY) != Contract(bytes(32))
     other_types: list[object] = [LiquidityPool(KEY), Ed25519PublicKey(KEY)]
     assert all(Contract(KEY) != other for other in other_types)
+    assert all(hash(Contract(KEY)) != hash(other) for other in other_types)
     assert len({Contract(KEY), Contract(KEY), LiquidityPool(KEY)}) == 2
 
 
@@ -53,11 +59,36 @@ def test_isinstance_of_the_strkey_union(key: Strkey) -> None:
     assert not isinstance(Ed25519PrivateKey(KEY), Strkey)
 
 
+@dataclasses.dataclass
+class Holder:
+    key: Strkey
+
+
+@given(strkeys)
+def test_strkeys_are_not_records_to_take_apart(key: Strkey) -> None:
+    assert not dataclasses.is_dataclass(key)
+    assert dataclasses.asdict(Holder(key)) == {"key": key}
+
+
 @given(strkeys)
 def test_pickle_and_copy_preserve_public_keys(key: Strkey) -> None:
     assert pickle.loads(pickle.dumps(key)) == key
-    assert copy.copy(key) == key
-    assert copy.deepcopy(key) == key
+    assert copy.copy(key) is key
+    assert copy.deepcopy(key) is key
+
+
+class ForgedPickle:
+    """Pickles as a contract whose binary form is too short."""
+
+    def __reduce__(self) -> tuple[object, tuple[bytes]]:
+        return Contract.from_bytes, (b"short",)
+
+
+def test_a_pickle_holds_the_binary_form_and_is_validated_when_loaded() -> None:
+    key = MuxedEd25519Account(KEY, 7)
+    assert key.__reduce__() == (MuxedEd25519Account.from_bytes, (key.to_bytes(),))
+    with raises_plain_value_error():
+        pickle.loads(pickle.dumps(ForgedPickle()))
 
 
 def test_repr_shows_the_strkey() -> None:
