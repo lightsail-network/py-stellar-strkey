@@ -41,9 +41,9 @@ def _require_bytes(name: str, value: bytes) -> bytes:
     # Coercing with bytes() would turn the integer 32 into 32 zero bytes.
     if not isinstance(value, bytes):  # pyright: ignore[reportUnnecessaryIsInstance]
         raise TypeError(f"{name} must be bytes, got {type(value).__name__}")
-    # A bytes subclass can override __len__, __bool__ or __bytes__ and so get past the
-    # checks below, so its real content is copied out through the buffer protocol,
-    # which Python code can't override. Exact bytes, the usual case, aren't copied.
+    # What is stored has to be exact bytes. A subclass can override __len__, __bool__
+    # or __bytes__, or carry state of its own, so its content is copied out through
+    # the buffer protocol. Exact bytes, the usual case, aren't copied.
     return value if type(value) is bytes else memoryview(value).tobytes()
 
 
