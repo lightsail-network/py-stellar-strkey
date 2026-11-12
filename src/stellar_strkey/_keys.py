@@ -2,7 +2,7 @@
 
 import hmac
 from abc import ABC, abstractmethod
-from dataclasses import FrozenInstanceError, dataclass
+from collections.abc import Callable
 from typing import ClassVar, Final, NoReturn, Self, SupportsIndex, TypeAlias, TypeVar
 
 from ._codec import MAX_PAYLOAD_LEN as _MAX_ANY_PAYLOAD_LEN
@@ -81,7 +81,12 @@ def _from_payload(strkey_type: type[_T], payload: bytes) -> _T:
 
 
 class _Strkey(ABC):
-    """The operations shared by every strkey type."""
+    """The operations shared by every strkey type, the private key included.
+
+    Nothing here turns the binary form into text or into a pickle. That lives in
+    `_Public`, which the private key does not inherit from, so a method added there
+    cannot expose a seed.
+    """
 
     __slots__ = ()
 
@@ -140,25 +145,77 @@ class _Strkey(ABC):
             return False
         return True
 
+    def __format__(self, format_spec: str) -> str:
+        return format(str(self), format_spec)
+
+    # Instances are immutable: __init__ sets the slots with object.__setattr__ and
+    # nothing sets them afterwards.
+    def __setattr__(self, name: str, _value: object, /) -> NoReturn:
+        raise AttributeError(f"cannot assign to field {name!r}")
+
+    def __delattr__(self, name: str, /) -> NoReturn:
+        raise AttributeError(f"cannot delete field {name!r}")
+
+    # An immutable value is its own copy. This also keeps copying a container that
+    # holds a private key working, since a private key can't be pickled to copy it.
+    # That includes dataclasses.asdict, which deep copies the values it doesn't
+    # recurse into.
+    def __copy__(self) -> Self:
+        return self
+
+    def __deepcopy__(self, _memo: dict[int, object], /) -> Self:
+        return self
+
+
+class _Public(_Strkey):
+    """A strkey that is safe to show: every type except the private key.
+
+    A strkey is a value with one canonical form, its string. These classes are written
+    by hand rather than as dataclasses on purpose. Generic serializers (orjson, msgspec,
+    pydantic and others) treat a dataclass as a record and write out its fields, here
+    raw bytes, without calling the hook the caller gave them. A plain class is opaque
+    to them: they refuse it or call that hook, and `str` is the right hook.
+    """
+
+    __slots__ = ()
+
     def __str__(self) -> str:
         return encode(self._VERSION_BYTE, self.to_bytes())
 
     def __repr__(self) -> str:
         return f"{type(self).__name__}.from_string({str(self)!r})"
 
-    def __format__(self, format_spec: str) -> str:
-        return format(str(self), format_spec)
+    # Two strkeys are equal when they have the same type and the same binary form,
+    # which is to say when they are the same string.
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, _Public) or type(other) is not type(self):
+            return NotImplemented
+        return self.to_bytes() == other.to_bytes()
+
+    def __hash__(self) -> int:
+        return hash((type(self), self.to_bytes()))
+
+    # A pickle holds the binary form, which SEP-23 fixes, rather than the fields, and
+    # loading one validates it like any other input.
+    def __reduce__(self) -> tuple[Callable[[bytes], Self], tuple[bytes]]:
+        return type(self).from_bytes, (self.to_bytes(),)
 
 
-@dataclass(frozen=True, slots=True, repr=False)
-class _Hash(_Strkey):
+class _Hash(_Public):
     """A strkey whose binary form is a single 32-byte hash."""
 
-    hash: bytes
-    """The 32-byte hash."""
+    __slots__ = ("_hash",)
+    __match_args__ = ("hash",)
 
-    def __post_init__(self) -> None:
-        object.__setattr__(self, "hash", _require_len("hash", self.hash, _KEY_LEN))
+    _hash: bytes
+
+    def __init__(self, hash: bytes) -> None:
+        object.__setattr__(self, "_hash", _require_len("hash", hash, _KEY_LEN))
+
+    @property
+    def hash(self) -> bytes:
+        """The 32-byte hash."""
+        return self._hash
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
@@ -167,20 +224,25 @@ class _Hash(_Strkey):
 
     def to_bytes(self) -> bytes:
         """Return the 32-byte hash."""
-        return self.hash
+        return self._hash
 
 
-@dataclass(frozen=True, slots=True, repr=False)
-class Ed25519PublicKey(_Strkey):
+class Ed25519PublicKey(_Public):
     """An ed25519 public key (`G...`)."""
 
+    __slots__ = ("_key",)
+    __match_args__ = ("key",)
+
     _VERSION_BYTE: ClassVar[int] = _PUBLIC_KEY
+    _key: bytes
 
-    key: bytes
-    """The 32-byte public key."""
+    def __init__(self, key: bytes) -> None:
+        object.__setattr__(self, "_key", _require_len("key", key, _KEY_LEN))
 
-    def __post_init__(self) -> None:
-        object.__setattr__(self, "key", _require_len("key", self.key, _KEY_LEN))
+    @property
+    def key(self) -> bytes:
+        """The 32-byte public key."""
+        return self._key
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
@@ -189,7 +251,7 @@ class Ed25519PublicKey(_Strkey):
 
     def to_bytes(self) -> bytes:
         """Return the 32-byte public key."""
-        return self.key
+        return self._key
 
 
 _NOT_PICKLABLE: Final = (
@@ -204,19 +266,15 @@ class Ed25519PrivateKey(_Strkey):
     by accident. Call [`reveal`][stellar_strkey.Ed25519PrivateKey.reveal] to get the
     strkey. Instances are immutable, compare in constant time and are unhashable.
 
-    Unlike the other types, this is not a dataclass and cannot be pickled, so tools
-    that serialize objects generically, such as `dataclasses.asdict`, msgspec, pydantic
-    and pickle, cannot write the seed out. To store or send a key, use `reveal`.
-    `copy.copy` and `copy.deepcopy` return the key itself. Only `seed` and `to_bytes`
-    return the raw seed, so don't log those. Python cannot erase `bytes` from memory, so
-    this class does not protect against an attacker who can read process memory.
+    Like the other types, this is a plain class that tools which serialize objects
+    generically, such as `dataclasses.asdict`, msgspec and pydantic, don't take apart.
+    Unlike them, it also cannot be pickled, so none of those tools can write the seed
+    out. To store or send a key, use `reveal`. `copy.copy` and `copy.deepcopy` return
+    the key itself. Only `seed` and `to_bytes` return the raw seed, so don't log those.
+    Python cannot erase `bytes` from memory, so this class does not protect against an
+    attacker who can read process memory.
     """
 
-    # This class is written by hand rather than as a dataclass on purpose. Generic
-    # serializers (dataclasses.asdict, msgspec, pydantic and others) treat a dataclass
-    # as plain data and would write out its fields, including the seed, even when the
-    # key is nested inside the caller's own dataclass. As a plain class it is opaque to
-    # them: asdict keeps the redacted object, and msgspec and pydantic refuse it.
     __slots__ = ("_seed",)
     __match_args__ = ("seed",)
 
@@ -258,14 +316,6 @@ class Ed25519PrivateKey(_Strkey):
     # Defining __eq__ already makes the class unhashable; this tells type checkers.
     __hash__: ClassVar[None]  # type: ignore[assignment]  # pyright: ignore[reportIncompatibleMethodOverride]
 
-    # Immutable like the other types, which are frozen dataclasses, so the same
-    # exception is raised.
-    def __setattr__(self, name: str, _value: object, /) -> NoReturn:
-        raise FrozenInstanceError(f"cannot assign to field {name!r}")
-
-    def __delattr__(self, name: str, /) -> NoReturn:
-        raise FrozenInstanceError(f"cannot delete field {name!r}")
-
     # Pickling is refused because a pickle carries the seed to wherever it goes, such as
     # a cache, a task queue or a file, without the caller asking for that. cryptography
     # and pycryptodome also refuse to pickle private keys. Refusing can be relaxed later
@@ -280,32 +330,31 @@ class Ed25519PrivateKey(_Strkey):
     def __getstate__(self) -> NoReturn:
         raise TypeError(_NOT_PICKLABLE)
 
-    # copy and deepcopy would otherwise go through __reduce_ex__ and fail. The key is
-    # immutable, so returning it unchanged is a correct copy. This keeps copying
-    # containers that hold a key working, including dataclasses.asdict, which deep
-    # copies the values it doesn't recurse into.
-    def __copy__(self) -> Self:
-        return self
 
-    def __deepcopy__(self, _memo: dict[int, object], /) -> Self:
-        return self
-
-
-@dataclass(frozen=True, slots=True, repr=False)
-class MuxedEd25519Account(_Strkey):
+class MuxedEd25519Account(_Public):
     """A multiplexed ed25519 account (`M...`)."""
 
+    __slots__ = ("_id", "_key")
+    __match_args__ = ("key", "id")
+
     _VERSION_BYTE: ClassVar[int] = _MUXED_ACCOUNT
+    _key: bytes
+    _id: int
 
-    key: bytes
-    """The 32-byte public key of the underlying account."""
+    def __init__(self, key: bytes, id: int) -> None:
+        object.__setattr__(self, "_key", _require_len("key", key, _KEY_LEN))
+        _require_id(id)
+        object.__setattr__(self, "_id", id)
 
-    id: int
-    """The unsigned 64-bit multiplexing ID."""
+    @property
+    def key(self) -> bytes:
+        """The 32-byte public key of the underlying account."""
+        return self._key
 
-    def __post_init__(self) -> None:
-        object.__setattr__(self, "key", _require_len("key", self.key, _KEY_LEN))
-        _require_id(self.id)
+    @property
+    def id(self) -> int:
+        """The unsigned 64-bit multiplexing ID."""
+        return self._id
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
@@ -315,30 +364,39 @@ class MuxedEd25519Account(_Strkey):
 
     def to_bytes(self) -> bytes:
         """Return the public key followed by the big-endian ID."""
-        return self.key + self.id.to_bytes(_ID_LEN, "big")
+        return self._key + self._id.to_bytes(_ID_LEN, "big")
 
 
-@dataclass(frozen=True, slots=True, repr=False)
-class Ed25519SignedPayload(_Strkey):
+class Ed25519SignedPayload(_Public):
     """An ed25519 signed payload signer (`P...`, CAP-40)."""
 
+    __slots__ = ("_key", "_payload")
+    __match_args__ = ("key", "payload")
+
     _VERSION_BYTE: ClassVar[int] = _SIGNED_PAYLOAD
+    _key: bytes
+    _payload: bytes
 
-    key: bytes
-    """The 32-byte public key that has to sign the payload."""
-
-    payload: bytes
-    """The payload to sign, 1 to 64 bytes without padding."""
-
-    def __post_init__(self) -> None:
-        object.__setattr__(self, "key", _require_len("key", self.key, _KEY_LEN))
-        object.__setattr__(self, "payload", _require_bytes("payload", self.payload))
+    def __init__(self, key: bytes, payload: bytes) -> None:
+        object.__setattr__(self, "_key", _require_len("key", key, _KEY_LEN))
+        payload = _require_bytes("payload", payload)
         # stellar-core rejects empty payloads with SET_OPTIONS_BAD_SIGNER.
-        if not _MIN_INNER_PAYLOAD_LEN <= len(self.payload) <= _MAX_INNER_PAYLOAD_LEN:
+        if not _MIN_INNER_PAYLOAD_LEN <= len(payload) <= _MAX_INNER_PAYLOAD_LEN:
             raise ValueError(
                 f"payload must be {_MIN_INNER_PAYLOAD_LEN} to "
-                f"{_MAX_INNER_PAYLOAD_LEN} bytes, got {len(self.payload)}"
+                f"{_MAX_INNER_PAYLOAD_LEN} bytes, got {len(payload)}"
             )
+        object.__setattr__(self, "_payload", payload)
+
+    @property
+    def key(self) -> bytes:
+        """The 32-byte public key that has to sign the payload."""
+        return self._key
+
+    @property
+    def payload(self) -> bytes:
+        """The payload to sign, 1 to 64 bytes without padding."""
+        return self._payload
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
@@ -365,12 +423,12 @@ class Ed25519SignedPayload(_Strkey):
 
     def to_bytes(self) -> bytes:
         """Return the public key followed by the XDR-encoded payload."""
-        length = len(self.payload)
+        length = len(self._payload)
         return b"".join(
             (
-                self.key,
+                self._key,
                 length.to_bytes(_LENGTH_PREFIX_LEN, "big"),
-                self.payload,
+                self._payload,
                 bytes(_xdr_padding_len(length)),
             )
         )
@@ -404,17 +462,11 @@ class LiquidityPool(_Hash):
     _VERSION_BYTE: ClassVar[int] = _LIQUIDITY_POOL
 
 
-@dataclass(frozen=True, slots=True, repr=False)
-class ClaimableBalance(_Strkey):
+class ClaimableBalance(_Hash):
     """A version 0 claimable balance ID (`B...`)."""
 
+    __slots__ = ()
     _VERSION_BYTE: ClassVar[int] = _CLAIMABLE_BALANCE
-
-    hash: bytes
-    """The 32-byte hash."""
-
-    def __post_init__(self) -> None:
-        object.__setattr__(self, "hash", _require_len("hash", self.hash, _KEY_LEN))
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
@@ -437,24 +489,33 @@ class ClaimableBalance(_Strkey):
 
     def to_bytes(self) -> bytes:
         """Return the version byte followed by the 32-byte hash."""
-        return _CLAIMABLE_BALANCE_V0 + self.hash
+        return _CLAIMABLE_BALANCE_V0 + self._hash
 
 
-@dataclass(frozen=True, slots=True, repr=False)
-class MuxedContract(_Strkey):
+class MuxedContract(_Public):
     """A multiplexed smart contract address (`W...`, CAP-84)."""
 
+    __slots__ = ("_hash", "_id")
+    __match_args__ = ("hash", "id")
+
     _VERSION_BYTE: ClassVar[int] = _MUXED_CONTRACT
+    _hash: bytes
+    _id: int
 
-    hash: bytes
-    """The 32-byte hash of the underlying contract."""
+    def __init__(self, hash: bytes, id: int) -> None:
+        object.__setattr__(self, "_hash", _require_len("hash", hash, _KEY_LEN))
+        _require_id(id)
+        object.__setattr__(self, "_id", id)
 
-    id: int
-    """The unsigned 64-bit multiplexing ID."""
+    @property
+    def hash(self) -> bytes:
+        """The 32-byte hash of the underlying contract."""
+        return self._hash
 
-    def __post_init__(self) -> None:
-        object.__setattr__(self, "hash", _require_len("hash", self.hash, _KEY_LEN))
-        _require_id(self.id)
+    @property
+    def id(self) -> int:
+        """The unsigned 64-bit multiplexing ID."""
+        return self._id
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
@@ -464,7 +525,7 @@ class MuxedContract(_Strkey):
 
     def to_bytes(self) -> bytes:
         """Return the contract hash followed by the big-endian ID."""
-        return self.hash + self.id.to_bytes(_ID_LEN, "big")
+        return self._hash + self._id.to_bytes(_ID_LEN, "big")
 
 
 Strkey: TypeAlias = (

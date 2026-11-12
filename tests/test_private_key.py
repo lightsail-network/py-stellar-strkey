@@ -6,7 +6,6 @@ import copy
 import dataclasses
 import pickle
 import traceback
-from dataclasses import FrozenInstanceError
 from typing import Any
 
 import pytest
@@ -90,13 +89,13 @@ def test_equality_without_hash() -> None:
 
 def test_is_immutable() -> None:
     key = Ed25519PrivateKey(KEY)
-    with pytest.raises(FrozenInstanceError):
+    with pytest.raises(AttributeError):
         key.seed = bytes(32)  # type: ignore[misc]  # pyright: ignore[reportAttributeAccessIssue]
-    with pytest.raises(FrozenInstanceError):
+    with pytest.raises(AttributeError):
         key._seed = bytes(32)
-    with pytest.raises(FrozenInstanceError):
+    with pytest.raises(AttributeError):
         key.other = 1
-    with pytest.raises(FrozenInstanceError):
+    with pytest.raises(AttributeError):
         del key.seed  # pyright: ignore[reportAttributeAccessIssue]
     assert not hasattr(key, "__dict__")
     assert key.seed == KEY
@@ -138,6 +137,8 @@ def test_cannot_be_pickled(protocol: int) -> None:
 def test_state_is_not_exposed() -> None:
     with pytest.raises(TypeError, match=r"use reveal\(\)"):
         Ed25519PrivateKey(KEY).__getstate__()
+    with pytest.raises(TypeError, match=r"use reveal\(\)"):
+        Ed25519PrivateKey(KEY).__reduce__()
 
 
 def test_copy_returns_the_same_key() -> None:
