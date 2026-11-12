@@ -73,8 +73,6 @@ select = ["ALL"]
 ignore = [
     "COM812", # conflicts with the formatter
     "CPY001", # the LICENSE file covers the whole package
-    "D105",   # dunder methods are self-explanatory
-    "D107",   # the class docstring documents construction
     "TRY003", # short, specific exception messages read better inline
     "EM101",  # as above
     "EM102",  # as above
@@ -90,7 +88,6 @@ ignore = [
     "PLR2004", # literal expectations are the point of a test
     "S101",    # pytest uses assert
     "S301",    # pickle round trips of our own objects
-    "A002",    # mirrors the field names under test
     "SLF001",  # white-box assertions
 ]
 
