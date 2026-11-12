@@ -122,8 +122,10 @@ def test_valid_vector_is_the_wrong_type_for_other_parsers(
 def test_invalid_vector_raises_its_error(vector: dict[str, str]) -> None:
     strkey = vector["strkey"]
     expected = ERRORS[vector["error"]]
-    generic = Ed25519PrivateKey.from_string if strkey.startswith("S") else parse
-    for parser in (generic, TYPES_BY_PREFIX[strkey[0]].from_string):
+    typed = TYPES_BY_PREFIX[strkey[0]].from_string
+    # parse() refuses a private key before it looks at the payload.
+    parsers = (typed,) if strkey.startswith("S") else (typed, parse)
+    for parser in parsers:
         with pytest.raises(StrkeyError) as excinfo:
             parser(strkey)
         assert excinfo.type is expected
