@@ -67,7 +67,14 @@ def test_parse_refuses_private_keys_before_checking_their_length() -> None:
 
 @pytest.mark.parametrize(
     "broken",
-    [SEED[:-1] + "A", SEED[:-1], SEED.lower(), SEED + "A", "é" + SEED],
+    [
+        SEED[:-1] + "A",
+        SEED[:-1],
+        SEED.lower(),
+        SEED + "A",
+        "é" + SEED[1:],
+        "1" + SEED[1:],
+    ],
 )
 def test_errors_do_not_contain_the_input(broken: str) -> None:
     with pytest.raises(StrkeyError) as excinfo:
@@ -75,6 +82,8 @@ def test_errors_do_not_contain_the_input(broken: str) -> None:
     rendered = "".join(traceback.format_exception(excinfo.value))
     assert broken[1:20] not in rendered
     assert repr(broken) not in repr(excinfo.value)
+    # A suppressed exception isn't rendered, but it would still hold the input.
+    assert excinfo.value.__context__ is None
 
 
 def test_equality_without_hash() -> None:

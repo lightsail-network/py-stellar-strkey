@@ -9,6 +9,7 @@ from ._errors import ChecksumMismatchError, MalformedStrkeyError
 _VERSION_LEN: Final = 1
 _CHECKSUM_LEN: Final = 2
 _BASE32_BLOCK_LEN: Final = 8
+_ALPHABET: Final = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
 
 # The length is checked before decoding, so that hostile input is rejected without being
 # decoded. The cost is that a future strkey type with a longer payload would be reported
@@ -35,8 +36,9 @@ def decode(value: str) -> tuple[int, bytes]:
     """Decode a strkey into its version byte and payload.
 
     The length is checked before any decoding happens, which bounds the work done
-    on hostile input. SEP-23 only accepts a strkey that re-encodes to exactly the
-    same string, which also rejects padding, lower case and non-zero trailing bits.
+    on hostile input. Only the base32 alphabet is accepted, which rejects padding
+    and lower case. SEP-23 also requires a strkey to re-encode to exactly the same
+    string, which rejects non-zero trailing bits.
 
     Args:
         value: The strkey to decode.
@@ -65,11 +67,13 @@ def decode(value: str) -> tuple[int, bytes]:
             f"strkey payload exceeds {MAX_PAYLOAD_LEN} bytes, the most of any type"
         )
 
-    try:
-        encoded = value.encode("ascii")
-        data = base64.b32decode(encoded + b"=" * padding)
-    except ValueError:  # UnicodeEncodeError and binascii.Error
-        raise MalformedStrkeyError("strkey is not valid base32") from None
+    # The alphabet is checked here rather than left to the decoder. An exception it
+    # raised would stay attached to the error that replaces it, out of sight but still
+    # holding the input. A character outside ASCII becomes "?", which the check rejects.
+    encoded = value.encode("ascii", "replace")
+    if encoded.translate(None, _ALPHABET):
+        raise MalformedStrkeyError("strkey is not valid base32")
+    data = base64.b32decode(encoded + b"=" * padding)
     if base64.b32encode(data).rstrip(b"=") != encoded:
         raise MalformedStrkeyError("strkey is not canonical base32")
 
