@@ -1,6 +1,6 @@
 [project]
 name = "stellar-strkey"
-version = "0.1.0"
+version = "0.2.0"
 description = "Strict, typed, dependency-free encoding and decoding of Stellar strkeys (SEP-23)."
 readme = "README.md"
 authors = [{ name = "overcat", email = "hi@overcat.dev" }]
