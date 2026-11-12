@@ -109,7 +109,7 @@ from stellar_strkey import (
     ChecksumMismatchError,
     Ed25519PublicKey,
     MalformedStrkeyError,
-    StrkeyError,
+    UnsupportedVersionError,
     WrongStrkeyTypeError,
 )
 
@@ -123,7 +123,7 @@ def check_account(address: str) -> str:
         return "That is not a Stellar address."
     except WrongStrkeyTypeError as error:
         return f"That is a {error.found.__name__}, not an account."
-    except StrkeyError:
+    except UnsupportedVersionError:
         return "That address is not supported yet."
     return "OK"
 
