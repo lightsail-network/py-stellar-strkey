@@ -1,6 +1,7 @@
 """One immutable class per strkey type, plus `parse` for unknown input."""
 
 import hmac
+import operator
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from typing import ClassVar, Final, NoReturn, Self, SupportsIndex, TypeAlias, TypeVar
@@ -54,11 +55,16 @@ def _require_len(name: str, value: bytes, length: int) -> bytes:
     return value
 
 
-def _require_id(value: int) -> None:
+def _require_id(value: int) -> int:
+    """Return `value` as an exact `int`, or raise if it isn't an unsigned 64-bit ID."""
     if not isinstance(value, int) or isinstance(value, bool):  # pyright: ignore[reportUnnecessaryIsInstance]
         raise TypeError(f"id must be int, got {type(value).__name__}")
+    # Like bytes, what is stored has to be the exact type, not a subclass such as an
+    # IntEnum member.
+    value = operator.index(value)
     if not 0 <= value <= _MAX_ID:
         raise ValueError("id must fit in an unsigned 64-bit integer")
+    return value
 
 
 def _xdr_padding_len(length: int) -> int:
@@ -337,8 +343,7 @@ class MuxedEd25519Account(_Public):
 
     def __init__(self, key: bytes, id: int) -> None:
         object.__setattr__(self, "_key", _require_len("key", key, _KEY_LEN))
-        _require_id(id)
-        object.__setattr__(self, "_id", id)
+        object.__setattr__(self, "_id", _require_id(id))
 
     @property
     def key(self) -> bytes:
@@ -495,8 +500,7 @@ class MuxedContract(_Public):
 
     def __init__(self, hash: bytes, id: int) -> None:
         object.__setattr__(self, "_hash", _require_len("hash", hash, _KEY_LEN))
-        _require_id(id)
-        object.__setattr__(self, "_id", id)
+        object.__setattr__(self, "_id", _require_id(id))
 
     @property
     def hash(self) -> bytes:
