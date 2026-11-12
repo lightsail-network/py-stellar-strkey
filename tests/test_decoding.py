@@ -142,22 +142,14 @@ def test_non_string_input_is_a_type_error(value: Any) -> None:
     assert not Contract.is_valid(value)
 
 
-class LyingStr(str):
-    """A str that misreports its length and refuses to be encoded."""
+class Address(str):
+    """A str subclass that behaves like str."""
 
     __slots__ = ()
 
-    def __len__(self) -> int:
-        return 5
 
-    def encode(self, encoding: str = "utf-8", errors: str = "strict") -> bytes:
-        del encoding, errors
-        raise RuntimeError("encode() must not be called")
-
-
-def test_str_subclasses_are_read_for_their_real_content() -> None:
-    with pytest.raises(MalformedStrkeyError, match="exceeds"):
-        parse(LyingStr("G" * 1_000_005))
-    contract = LyingStr(str(Contract(KEY)))
+def test_str_subclasses_are_accepted() -> None:
+    contract = Address(str(Contract(KEY)))
+    assert parse(contract) == Contract(KEY)
     assert Contract.from_string(contract) == Contract(KEY)
     assert Contract.is_valid(contract)

@@ -50,10 +50,6 @@ def decode(value: str) -> tuple[int, bytes]:
     """
     if not isinstance(value, str):  # pyright: ignore[reportUnnecessaryIsInstance]
         raise TypeError(f"strkey must be str, got {type(value).__name__}")
-    # A str subclass can override __len__ or encode and so get past the length check
-    # that bounds the work done on hostile input. str.__str__ is implemented in C and
-    # always returns an exact str with the real content, without copying an exact str.
-    value = str.__str__(value)
 
     padding = _PADDING_BY_REMAINDER.get(len(value) % _BASE32_BLOCK_LEN)
     if padding is None:

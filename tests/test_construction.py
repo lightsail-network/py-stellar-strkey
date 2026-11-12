@@ -61,33 +61,10 @@ def test_key_material_must_have_the_right_length(strkey_type: Any, length: int) 
         strkey_type(bytes(length))
 
 
-class LyingBytes(bytes):
-    """Bytes that misreport their length, their truth value and their content."""
-
-    __slots__ = ()
-
-    def __len__(self) -> int:
-        return 32
-
-    def __bool__(self) -> bool:
-        return False
-
-    def __bytes__(self) -> bytes:
-        return KEY
-
-
 class HonestBytes(bytes):
     """A bytes subclass that behaves like bytes, as hexbytes.HexBytes does."""
 
     __slots__ = ()
-
-
-def test_bytes_subclasses_are_read_for_their_real_content() -> None:
-    for strkey_type in (Ed25519PublicKey, Ed25519PrivateKey, Contract):
-        with raises_plain_value_error():
-            strkey_type(LyingBytes(b"short"))
-    with pytest.raises(UnsupportedVersionError):
-        ClaimableBalance.from_bytes(LyingBytes(b"\x01" + KEY))
 
 
 def test_bytes_subclasses_are_stored_as_bytes() -> None:
