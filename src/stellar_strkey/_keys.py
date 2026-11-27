@@ -605,11 +605,11 @@ class ClaimableBalance(_Hash):
 
     @classmethod
     def from_bytes(cls, data: bytes) -> Self:
-        """Build an instance from a version byte followed by a 32-byte hash.
+        """Build an instance from a one-byte balance version followed by a 32-byte hash.
 
         Raises:
             TypeError: If `data` is not `bytes`.
-            UnsupportedVersionError: If the version byte is not 0.
+            UnsupportedVersionError: If the balance version is not 0.
             ValueError: If `data` is not 33 bytes long.
         """
         data = _require_bytes("claimable balance", data)
@@ -623,7 +623,7 @@ class ClaimableBalance(_Hash):
         return cls(data[1:])
 
     def to_bytes(self) -> bytes:
-        """Return the version byte followed by the 32-byte hash."""
+        """Return the one-byte balance version followed by the 32-byte hash."""
         return _CLAIMABLE_BALANCE_V0 + self._hash
 
 

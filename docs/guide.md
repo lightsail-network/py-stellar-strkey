@@ -199,7 +199,7 @@ the key sits inside your own data. To store or send a key, use `reveal()` explic
 ## Binary form
 
 `to_bytes()` and `from_bytes()` convert to and from the binary form of a strkey, without
-the version byte and checksum.
+the version byte that says which type it is, and without the checksum.
 
 | Prefix | Class                  | Fields           | Binary form                           |
 | ------ | ---------------------- | ---------------- | ------------------------------------- |
@@ -211,9 +211,10 @@ the version byte and checksum.
 | `X`    | `HashX`                | `hash`           | 32-byte hash                          |
 | `C`    | `Contract`             | `hash`           | 32-byte hash                          |
 | `L`    | `LiquidityPool`        | `hash`           | 32-byte hash                          |
-| `B`    | `ClaimableBalance`     | `hash`           | `0x00` version byte, 32-byte hash     |
+| `B`    | `ClaimableBalance`     | `hash`           | `0x00` balance version, 32-byte hash  |
 | `W`    | `MuxedContract`        | `hash`, `id`     | 32-byte hash, 8-byte big-endian ID    |
 
 `from_bytes()` raises `ValueError` for invalid input, like the constructors. The binary
-form of a claimable balance starts with its version, so an unknown version there raises
-`UnsupportedVersionError`, as it does in a string.
+form of a claimable balance starts with a version of its own, which is not the strkey's
+version byte. An unknown version there raises `UnsupportedVersionError`, as it does in a
+string.

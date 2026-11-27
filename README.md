@@ -106,7 +106,7 @@ assert refused is Ed25519PrivateKey
 | `X`    | `HashX`                | `hash`           | 32-byte hash                          |
 | `C`    | `Contract`             | `hash`           | 32-byte hash                          |
 | `L`    | `LiquidityPool`        | `hash`           | 32-byte hash                          |
-| `B`    | `ClaimableBalance`     | `hash`           | `0x00` version byte, 32-byte hash     |
+| `B`    | `ClaimableBalance`     | `hash`           | `0x00` balance version, 32-byte hash  |
 | `W`    | `MuxedContract`        | `hash`, `id`     | 32-byte hash, 8-byte big-endian ID    |
 
 See the guide for how to handle errors, and for what private keys are protected
