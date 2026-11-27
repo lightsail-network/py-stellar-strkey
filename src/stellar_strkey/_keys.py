@@ -247,7 +247,17 @@ class _Hash(_Public):
 
 @final
 class Ed25519PublicKey(_Public):
-    """An ed25519 public key (`G...`)."""
+    """An ed25519 public key (`G...`).
+
+    `str()` returns the strkey.
+
+    Args:
+        key: The 32-byte public key.
+
+    Raises:
+        TypeError: If `key` is not `bytes`.
+        ValueError: If `key` is not 32 bytes long.
+    """
 
     __slots__ = ("_key",)
     __match_args__ = ("key",)
@@ -298,6 +308,13 @@ class Ed25519PrivateKey(_Strkey):
     the key itself. Only `seed` and `to_bytes` return the raw seed, so don't log those.
     Python cannot erase `bytes` from memory, so this class does not protect against an
     attacker who can read process memory.
+
+    Args:
+        seed: The 32-byte seed.
+
+    Raises:
+        TypeError: If `seed` is not `bytes`.
+        ValueError: If `seed` is not 32 bytes long.
     """
 
     __slots__ = ("_seed",)
@@ -363,7 +380,18 @@ class Ed25519PrivateKey(_Strkey):
 
 @final
 class MuxedEd25519Account(_Public):
-    """A multiplexed ed25519 account (`M...`)."""
+    """A multiplexed ed25519 account (`M...`).
+
+    `str()` returns the strkey.
+
+    Args:
+        key: The 32-byte public key of the underlying account.
+        id: The multiplexing ID, from 0 to `2**64 - 1`.
+
+    Raises:
+        TypeError: If `key` is not `bytes`, or `id` is not an `int` or is a `bool`.
+        ValueError: If `key` is not 32 bytes long, or `id` is out of range.
+    """
 
     __slots__ = ("_id", "_key")
     __match_args__ = ("key", "id")
@@ -404,7 +432,19 @@ class MuxedEd25519Account(_Public):
 
 @final
 class Ed25519SignedPayload(_Public):
-    """An ed25519 signed payload signer (`P...`, CAP-40)."""
+    """An ed25519 signed payload signer (`P...`, CAP-40).
+
+    `str()` returns the strkey.
+
+    Args:
+        key: The 32-byte public key that has to sign the payload.
+        payload: The payload to sign, 1 to 64 bytes without padding.
+
+    Raises:
+        TypeError: If `key` or `payload` is not `bytes`.
+        ValueError: If `key` is not 32 bytes long, or `payload` is not 1 to 64 bytes
+            long.
+    """
 
     __slots__ = ("_key", "_payload")
     __match_args__ = ("key", "payload")
@@ -475,7 +515,17 @@ class Ed25519SignedPayload(_Public):
 
 @final
 class PreAuthTx(_Hash):
-    """A pre-authorized transaction hash signer (`T...`)."""
+    """A pre-authorized transaction hash signer (`T...`).
+
+    `str()` returns the strkey.
+
+    Args:
+        hash: The 32-byte hash of the transaction.
+
+    Raises:
+        TypeError: If `hash` is not `bytes`.
+        ValueError: If `hash` is not 32 bytes long.
+    """
 
     __slots__ = ()
     _VERSION_BYTE: ClassVar[int] = _PRE_AUTH_TX
@@ -483,7 +533,17 @@ class PreAuthTx(_Hash):
 
 @final
 class HashX(_Hash):
-    """A SHA-256 hash signer, satisfied by revealing its preimage (`X...`)."""
+    """A SHA-256 hash signer, satisfied by revealing its preimage (`X...`).
+
+    `str()` returns the strkey.
+
+    Args:
+        hash: The 32-byte SHA-256 hash of the preimage.
+
+    Raises:
+        TypeError: If `hash` is not `bytes`.
+        ValueError: If `hash` is not 32 bytes long.
+    """
 
     __slots__ = ()
     _VERSION_BYTE: ClassVar[int] = _HASH_X
@@ -491,7 +551,17 @@ class HashX(_Hash):
 
 @final
 class Contract(_Hash):
-    """A smart contract address (`C...`)."""
+    """A smart contract address (`C...`).
+
+    `str()` returns the strkey.
+
+    Args:
+        hash: The 32-byte hash that identifies the contract.
+
+    Raises:
+        TypeError: If `hash` is not `bytes`.
+        ValueError: If `hash` is not 32 bytes long.
+    """
 
     __slots__ = ()
     _VERSION_BYTE: ClassVar[int] = _CONTRACT
@@ -499,7 +569,17 @@ class Contract(_Hash):
 
 @final
 class LiquidityPool(_Hash):
-    """A liquidity pool ID (`L...`)."""
+    """A liquidity pool ID (`L...`).
+
+    `str()` returns the strkey.
+
+    Args:
+        hash: The 32-byte hash that identifies the pool.
+
+    Raises:
+        TypeError: If `hash` is not `bytes`.
+        ValueError: If `hash` is not 32 bytes long.
+    """
 
     __slots__ = ()
     _VERSION_BYTE: ClassVar[int] = _LIQUIDITY_POOL
@@ -507,7 +587,18 @@ class LiquidityPool(_Hash):
 
 @final
 class ClaimableBalance(_Hash):
-    """A version 0 claimable balance ID (`B...`)."""
+    """A version 0 claimable balance ID (`B...`).
+
+    `str()` returns the strkey.
+
+    Args:
+        hash: The 32-byte hash that identifies the balance, without the version that
+            the binary form starts with.
+
+    Raises:
+        TypeError: If `hash` is not `bytes`.
+        ValueError: If `hash` is not 32 bytes long.
+    """
 
     __slots__ = ()
     _VERSION_BYTE: ClassVar[int] = _CLAIMABLE_BALANCE
@@ -538,7 +629,18 @@ class ClaimableBalance(_Hash):
 
 @final
 class MuxedContract(_Public):
-    """A multiplexed smart contract address (`W...`, CAP-84)."""
+    """A multiplexed smart contract address (`W...`, CAP-84).
+
+    `str()` returns the strkey.
+
+    Args:
+        hash: The 32-byte hash that identifies the underlying contract.
+        id: The multiplexing ID, from 0 to `2**64 - 1`.
+
+    Raises:
+        TypeError: If `hash` is not `bytes`, or `id` is not an `int` or is a `bool`.
+        ValueError: If `hash` is not 32 bytes long, or `id` is out of range.
+    """
 
     __slots__ = ("_hash", "_id")
     __match_args__ = ("hash", "id")
