@@ -22,6 +22,8 @@ from stellar_strkey._codec import encode
 
 from .support import KEY, SEED
 
+SEED_BYTES = Ed25519PrivateKey.from_string(SEED).seed
+
 
 def test_round_trip() -> None:
     key = Ed25519PrivateKey.from_string(SEED)
@@ -84,6 +86,36 @@ def test_errors_do_not_contain_the_input(broken: str) -> None:
     assert repr(broken) not in repr(excinfo.value)
     # A suppressed exception isn't rendered, but it would still hold the input.
     assert excinfo.value.__context__ is None
+
+
+@pytest.mark.parametrize(
+    "seed", [SEED_BYTES[:-1], SEED_BYTES + b"\x00"], ids=["too-short", "too-long"]
+)
+def test_error_for_a_seed_of_the_wrong_length_does_not_contain_it(seed: bytes) -> None:
+    # The codec accepts this strkey, so the error is the constructor's, reworded. The
+    # constructor's own error stays attached to it, unlike the decoder's above, so
+    # that one is checked too.
+    strkey = encode(Ed25519PrivateKey._VERSION_BYTE, seed)
+    with pytest.raises(MalformedStrkeyError) as excinfo:
+        Ed25519PrivateKey.from_string(strkey)
+    error: BaseException | None = excinfo.value
+    while error is not None:
+        shown = repr(error) + "".join(traceback.format_exception(error))
+        assert strkey[1:20] not in shown
+        assert seed.hex() not in shown
+        assert repr(seed)[2:-1] not in shown
+        error = error.__context__
+
+
+def test_only_three_public_members_return_the_seed() -> None:
+    # Anything public that is added to the class, or to a base class, has to be added
+    # here too, which is the moment to check that it doesn't return the seed.
+    key = Ed25519PrivateKey(KEY)
+    public = {name for name in dir(key) if not name.startswith("_")}
+    exposing = {"seed", "to_bytes", "reveal"}
+    assert public == exposing | {"from_bytes", "from_string", "is_valid"}
+    assert key.seed == key.to_bytes() == KEY
+    assert Ed25519PrivateKey.from_string(key.reveal()) == key
 
 
 def test_equality_without_hash() -> None:
